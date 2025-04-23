@@ -30,7 +30,7 @@
       "__guid": "bfc59c12-1ed2-4f91-8956-a95a315eac3c",
       "Flags": 0,
       "Name": "Sun",
-      "Rotation": "-0.0729315,0.4822396,0.1305433,0.8631827",
+      "Rotation": "-0.4589774,0.4393381,0.03705688,0.7713291",
       "Tags": "light_directional,light",
       "Enabled": true,
       "Components": [
@@ -55,6 +55,7 @@
       "__guid": "00344a8c-fa5e-45ae-b12a-10bb781a1dc3",
       "Flags": 0,
       "Name": "2D Skybox",
+      "Position": "0,0,96",
       "Tags": "skybox",
       "Enabled": true,
       "Components": [
@@ -82,7 +83,7 @@
           "Feathering": 0.02,
           "FrameInterval": 5,
           "MaxDistance": 512,
-          "MultiBounce": false,
+          "MultiBounce": true,
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
@@ -259,6 +260,12 @@
           "SurfaceVelocity": "0,0,0"
         }
       ]
+    },
+    {
+      "__guid": "d838fcf2-68df-4db3-a58a-19ad36c5515b",
+      "Flags": 0,
+      "Name": "Player",
+      "Enabled": true
     }
   ],
   "SceneProperties": {
