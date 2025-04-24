@@ -114,24 +114,15 @@
       "Enabled": true,
       "Components": [
         {
-          "__type": "GameManager",
-          "__guid": "5baee7ff-2e10-477f-bf86-6cb3b23393db",
+          "__type": "Bee.GameManager",
+          "__guid": "63d9d256-b9a0-4d92-bc46-c7f74b5dbc4c",
+          "List": "easy.wl",
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
           "OnComponentFixedUpdate": null,
           "OnComponentStart": null,
-          "OnComponentUpdate": null,
-          "WordList": [
-            {
-              "word": "Bee",
-              "definition": "small insect"
-            },
-            {
-              "word": "spelling",
-              "definition": "how a word is spelled"
-            }
-          ]
+          "OnComponentUpdate": null
         }
       ],
       "Children": [
@@ -294,8 +285,8 @@
           "WalkSpeed": 250
         },
         {
-          "__type": "Sandbox.GuessInput",
-          "__guid": "6cb26604-3389-410a-bb94-04f624f18822",
+          "__type": "Bee.GuessInput",
+          "__guid": "69186233-8da8-4550-8f8c-34312ef3dc9e",
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
@@ -492,39 +483,39 @@
                 "Position": "0,-96,128.1593",
                 "Rotation": "0,0,0,1",
                 "Positions": [
-                  "-256,-160,255.8407",
-                  "256,-160,255.8407",
-                  "256,160,255.8407",
-                  "-256,160,255.8407",
-                  "-256,160,-128",
-                  "256,160,-128",
-                  "256,-160,-128",
-                  "-256,-160,-128"
+                  "-256,-96,255.8407",
+                  "256,-96,255.8407",
+                  "256,256,255.8407",
+                  "-256,256,255.8407",
+                  "-256,256,-128",
+                  "256,256,-128",
+                  "256,-96,-128",
+                  "-256,-96,-128"
                 ],
                 "TextureCoord": [
-                  "-2,2",
+                  "-2,1.5",
                   "-2,-3",
-                  "2,2",
-                  "-0.5,-3",
-                  "2,-0.5",
+                  "2,1.5",
+                  "-1.25,-3",
+                  "2,-1.25",
                   "-2,-3",
-                  "-2,-0.5",
-                  "-2,-3",
+                  "-2,-1.25",
+                  "-1.5,-3",
                   "-4,-1.75",
                   "2,-0.001244545",
                   "4,-1.75",
-                  "2,-0.001244545",
+                  "1.5,-0.001244545",
                   "4,3.75",
                   "2,-0.001244545",
                   "-4,3.75",
-                  "0.5,-0.001244545",
-                  "-2,-0.001244545",
+                  "1.25,-0.001244545",
+                  "-1.5,-0.001244545",
                   "2,-3",
-                  "0.5,-3",
+                  "1.25,-3",
                   "-2,-0.001244545",
-                  "2,-3",
+                  "1.5,-3",
                   "-2,-0.001244545",
-                  "-0.5,-0.001244545",
+                  "-1.25,-0.001244545",
                   "2,-3"
                 ],
                 "TextureUAxis": [

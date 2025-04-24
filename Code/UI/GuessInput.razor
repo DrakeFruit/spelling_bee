@@ -1,11 +1,11 @@
 @using Sandbox;
 @using Sandbox.UI;
 @inherits PanelComponent
-@namespace Sandbox
+@namespace Bee
 
 <root class="@( MyTurn ? "" : "Hidden" )">
 	@if ( IsProxy ) return;
-	<div>@GameManager.CurrentWord.word</div> 
+	<div>@GameManager.CurrentWord.Word</div> 
 	<div class="EntryWrapper">
 		<TextEntry class="Entry" Placeholder="Spell the word out here" onsubmit=@( () => Submit() ) @ref=Entry></TextEntry>
 	</div>
@@ -22,7 +22,7 @@
 
 	public void Submit()
 	{
-		if ( Entry.Text.ToLower() == GameManager.CurrentWord.word.ToLower() ) Log.Info( "success" );
+		if ( Entry.Text.ToLower() == GameManager.CurrentWord.Word.ToLower() ) Log.Info( "success" );
 		else Log.Info( "fail" );
 		
 		Entry.Text = "";

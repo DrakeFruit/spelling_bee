@@ -1,24 +1,21 @@
 using System;
 using System.IO;
 
+namespace Bee;
+
 public sealed class GameManager : Component
 {
-	[Property] public List<Word> WordList { get; set; }
-	public static Word CurrentWord { get; set; }
+	[Property] public WordListFile List { get; set; }
+	public static WordListFile.WordPair CurrentWord { get; set; }
 	
 	protected override void OnStart()
 	{
-		CurrentWord = WordList[ Game.Random.Int( 0, 1 ) ];
+		CurrentWord = List.Words[ Game.Random.Int( 0, List.Words.Count - 1 ) ];
+		Log.Info(CurrentWord);
 	}
 	
 	protected override void OnFixedUpdate()
 	{
 		
-	}
-
-	public struct Word
-	{
-		public string word { get; set; }
-		public string definition { get; set; }
 	}
 }
