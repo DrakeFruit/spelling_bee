@@ -1,11 +1,16 @@
+@using System.Threading.Tasks
 @using Sandbox;
 @using Sandbox.UI;
+@using TikTokTTS
 @inherits PanelComponent
 @namespace Bee
 
 <root class="@( MyTurn ? "" : "Hidden" )">
 	@if ( IsProxy ) return;
-	<div>@GameManager.CurrentWord.Word</div> 
+	<div>@GameManager.CurrentWord</div> 
+	<div class="DefinitionWrapper">
+		<div class="Definition">@GameManager.CurrentDefinition</div>
+	</div>
 	<div class="EntryWrapper">
 		<TextEntry class="Entry" Placeholder="Spell the word out here" onsubmit=@( () => Submit() ) @ref=Entry></TextEntry>
 	</div>
@@ -18,14 +23,26 @@
 
 	protected override void OnFixedUpdate()
 	{
+		if ( Entry != null ) WordDisplay.CurrentGuess = Entry.Text;
 	}
 
-	public void Submit()
+	public async Task Submit()
 	{
-		if ( Entry.Text.ToLower() == GameManager.CurrentWord.Word.ToLower() ) Log.Info( "success" );
-		else Log.Info( "fail" );
+		if ( Entry.Text.ToLower() == GameManager.CurrentWord.ToLower() )
+		{
+			Entry.SetProperty( "style", "color: green" );
+			//Sound.Play();
+		}
+		else
+		{
+			Entry.SetProperty( "style", "color: red" );
+			//Sound.Play();
+		}
 		
+		await Task.DelayRealtimeSeconds( 1 );
 		Entry.Text = "";
+		Entry.SetProperty( "style", "color: white" );
+		GameManager.NewWord();
 	}
 
 	protected override int BuildHash() => 0;

@@ -1,7 +1,7 @@
 {
   "Title": "Spelling Bee",
   "Type": "game",
-  "Org": "local",
+  "Org": "drakefruit",
   "Ident": "spelling_bee",
   "Schema": 1,
   "IncludeSourceFiles": false,

@@ -4,13 +4,13 @@
 @namespace Sandbox
 
 <root>
-	<div class="Word">@MyStringValue</div>
+	<div class="Word">@CurrentGuess</div>
 </root>
 
 @code
 {
 
-	[Property, TextArea] public string MyStringValue { get; set; } = "Hello World!";
+	[Property, Sync] public static string CurrentGuess { get; set; }
 
-	protected override int BuildHash() => System.HashCode.Combine( MyStringValue );
+	protected override int BuildHash() => System.HashCode.Combine( CurrentGuess );
 }

@@ -46,4 +46,23 @@ GuessInput
 	{
 		font-size: 25px;
 	}
+	
+	.DefinitionWrapper
+	{
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		top: 1%;
+		padding-top: 5px;
+		background-color: rgba(21, 22, 32, 0.86);
+		border: 3px rgba(119, 136, 153, 0.55);
+		border-radius: 5px;
+		width: 50%;
+		height: 15%;
+	}
+	
+	.Definition
+	{
+		font-size: 30px;
+	}
 }
