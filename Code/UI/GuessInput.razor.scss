@@ -1,0 +1,49 @@
+GuessInput
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	justify-content: center;
+	align-items: flex-end;
+	font-weight: bold;
+	font-family: Poppins;
+	color: #fff;
+	pointer-events: all;
+
+	.Hidden
+	{
+		background-color: white;
+		opacity: 0;
+		pointer-events: none;
+	}
+	
+	.EntryWrapper
+	{
+		position: absolute;
+		justify-content: center;
+		min-width: 25%;
+		width: auto;
+		height: 7.5%;
+		border: 3px rgba(119, 136, 153, 0.55);
+		border-radius: 20px;
+		margin-bottom: 10%;
+		background-color: rgba(68, 68, 68, 0.25);
+		
+		&:hover
+		{
+			background-color: rgba(68, 68, 68, 0.8);
+		}
+		
+		&:active
+		{
+			background-color: rgba(68, 68, 68, 0.95);
+		}
+	}
+	
+	.Entry
+	{
+		font-size: 25px;
+	}
+}

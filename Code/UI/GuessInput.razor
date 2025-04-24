@@ -1,0 +1,32 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+<root class="@( MyTurn ? "" : "Hidden" )">
+	@if ( IsProxy ) return;
+	<div>@GameManager.CurrentWord.word</div> 
+	<div class="EntryWrapper">
+		<TextEntry class="Entry" Placeholder="Spell the word out here" onsubmit=@( () => Submit() ) @ref=Entry></TextEntry>
+	</div>
+</root>
+
+@code
+{
+	public TextEntry Entry { get; set; }
+	public bool MyTurn { get; set; } = true;
+
+	protected override void OnFixedUpdate()
+	{
+	}
+
+	public void Submit()
+	{
+		if ( Entry.Text.ToLower() == GameManager.CurrentWord.word.ToLower() ) Log.Info( "success" );
+		else Log.Info( "fail" );
+		
+		Entry.Text = "";
+	}
+
+	protected override int BuildHash() => 0;
+}

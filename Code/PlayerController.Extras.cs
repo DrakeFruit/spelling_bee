@@ -7,6 +7,7 @@ public sealed class PlayerControllerExtras : Component
 	[Property] int JumpForce { get; set; } = 300;
 	protected override void OnStart()
 	{
+		Mouse.Visible = true;
 		Player.EyeAngles = Rotation.LookAt( Scene.Camera.WorldPosition - WorldPosition ).Angles().WithPitch( 0 );
 	}
 	

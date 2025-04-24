@@ -30,7 +30,7 @@
       "__guid": "3ee1c9f4-07be-4e0b-8b23-67bee2d8ec8a",
       "Flags": 0,
       "Name": "Camera",
-      "Position": "0.00005550063,-663.1266,285.8063",
+      "Position": "0.00005550063,-434,285.8063",
       "Rotation": "-0.1208631,0.1208631,0.6967009,0.696701",
       "Enabled": true,
       "Components": [
@@ -109,7 +109,7 @@
       "__guid": "723c389e-b76e-408e-bded-fd1b907a8d15",
       "Flags": 0,
       "Name": "Game Manager",
-      "Position": "0,46,160",
+      "Position": "0,96,164",
       "Rotation": "0,0,-0.7071068,0.7071068",
       "Enabled": true,
       "Components": [
@@ -121,40 +121,60 @@
           "OnComponentEnabled": null,
           "OnComponentFixedUpdate": null,
           "OnComponentStart": null,
-          "OnComponentUpdate": null
-        },
-        {
-          "__type": "Sandbox.WorldPanel",
-          "__guid": "cf6461b1-e7c3-4963-8bc5-88451f626d41",
-          "HorizontalAlign": "Center",
-          "InteractionRange": 1000,
-          "LookAtCamera": false,
-          "OnComponentDestroy": null,
-          "OnComponentDisabled": null,
-          "OnComponentEnabled": null,
-          "OnComponentFixedUpdate": null,
-          "OnComponentStart": null,
           "OnComponentUpdate": null,
-          "PanelSize": "10000,4800",
-          "RenderOptions": {
-            "GameLayer": true,
-            "OverlayLayer": false,
-            "BloomLayer": false,
-            "AfterUILayer": false
-          },
-          "RenderScale": 1,
-          "VerticalAlign": "Center"
-        },
+          "WordList": [
+            {
+              "word": "Bee",
+              "definition": "small insect"
+            },
+            {
+              "word": "spelling",
+              "definition": "how a word is spelled"
+            }
+          ]
+        }
+      ],
+      "Children": [
         {
-          "__type": "Sandbox.WordDisplay",
-          "__guid": "7a7bd0be-6d98-487b-be46-70fa02a286a4",
-          "MyStringValue": "Hello World!",
-          "OnComponentDestroy": null,
-          "OnComponentDisabled": null,
-          "OnComponentEnabled": null,
-          "OnComponentFixedUpdate": null,
-          "OnComponentStart": null,
-          "OnComponentUpdate": null
+          "__guid": "46783ddc-d6ef-4070-b45e-ba2ee3f91c55",
+          "Flags": 0,
+          "Name": "Word Display",
+          "Enabled": true,
+          "Components": [
+            {
+              "__type": "Sandbox.WorldPanel",
+              "__guid": "9503f233-58d0-4f29-bec1-827966e620e4",
+              "HorizontalAlign": "Center",
+              "InteractionRange": 1000,
+              "LookAtCamera": false,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null,
+              "PanelSize": "8000,4500",
+              "RenderOptions": {
+                "GameLayer": true,
+                "OverlayLayer": false,
+                "BloomLayer": false,
+                "AfterUILayer": false
+              },
+              "RenderScale": 1,
+              "VerticalAlign": "Center"
+            },
+            {
+              "__type": "Sandbox.WordDisplay",
+              "__guid": "e54563d0-7973-4545-b643-bd401a69c4d5",
+              "MyStringValue": "Hello World!",
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          ]
         }
       ]
     },
@@ -274,6 +294,16 @@
           "WalkSpeed": 250
         },
         {
+          "__type": "Sandbox.GuessInput",
+          "__guid": "6cb26604-3389-410a-bb94-04f624f18822",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null
+        },
+        {
           "__type": "Sandbox.Movement.MoveModeWalk",
           "__guid": "fb305c4c-a90b-4262-bc53-05526af266b7",
           "GroundAngle": 45,
@@ -311,6 +341,27 @@
           "OnComponentUpdate": null,
           "Priority": 5,
           "Speed": 1
+        },
+        {
+          "__type": "Sandbox.ScreenPanel",
+          "__guid": "d9ddcf45-e9ce-43ae-b2ac-0b8c31942348",
+          "AutoScreenScale": true,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "Opacity": 1,
+          "Scale": 1,
+          "ScaleStrategy": "ConsistentHeight",
+          "TargetCamera": {
+            "_type": "component",
+            "component_id": "cf3cbf96-22b6-4be4-a5d0-672a96c17f9f",
+            "go": "3ee1c9f4-07be-4e0b-8b23-67bee2d8ec8a",
+            "component_type": "CameraComponent"
+          },
+          "ZIndex": 100
         }
       ],
       "Children": [
@@ -424,7 +475,7 @@
         {
           "__guid": "fe93d93e-f37a-4b8a-a549-2d440583dad5",
           "Flags": 0,
-          "Name": "Box",
+          "Name": "Collider",
           "Position": "0,-96,128.1593",
           "Enabled": true,
           "Components": [
@@ -441,40 +492,40 @@
                 "Position": "0,-96,128.1593",
                 "Rotation": "0,0,0,1",
                 "Positions": [
-                  "-512,-352,255.8407",
-                  "512,-352,255.8407",
-                  "512,352,255.8407",
-                  "-512,352,255.8407",
-                  "-512,352,-128",
-                  "512,352,-128",
-                  "512,-352,-128",
-                  "-512,-352,-128"
+                  "-256,-160,255.8407",
+                  "256,-160,255.8407",
+                  "256,160,255.8407",
+                  "-256,160,255.8407",
+                  "-256,160,-128",
+                  "256,160,-128",
+                  "256,-160,-128",
+                  "-256,-160,-128"
                 ],
                 "TextureCoord": [
-                  "-8,7",
-                  "-8,-6",
-                  "8,7",
-                  "-4,-6",
-                  "8,-4",
-                  "-8,-6",
-                  "-8,-4",
-                  "-7,-6",
+                  "-2,2",
+                  "-2,-3",
+                  "2,2",
+                  "-0.5,-3",
+                  "2,-0.5",
+                  "-2,-3",
+                  "-2,-0.5",
+                  "-2,-3",
                   "-4,-1.75",
-                  "8,-0.002490044",
+                  "2,-0.001244545",
                   "4,-1.75",
-                  "7,-0.002490044",
+                  "2,-0.001244545",
                   "4,3.75",
-                  "8,-0.002490044",
+                  "2,-0.001244545",
                   "-4,3.75",
-                  "4,-0.002490044",
-                  "-7,-0.002490044",
-                  "8,-6",
-                  "4,-6",
-                  "-8,-0.002490044",
-                  "7,-6",
-                  "-8,-0.002490044",
-                  "-4,-0.002490044",
-                  "8,-6"
+                  "0.5,-0.001244545",
+                  "-2,-0.001244545",
+                  "2,-3",
+                  "0.5,-3",
+                  "-2,-0.001244545",
+                  "2,-3",
+                  "-2,-0.001244545",
+                  "-0.5,-0.001244545",
+                  "2,-3"
                 ],
                 "TextureUAxis": [
                   "1,0,0",
@@ -621,19 +672,19 @@
                   "9,-5.501173"
                 ],
                 "TextureUAxis": [
-                  "1,0,0",
+                  "1,0,-0",
                   "1,0,0",
                   "0,1,0",
                   "0,-1,0",
-                  "1,0,0",
+                  "1,-0,0",
                   "-1,0,0"
                 ],
                 "TextureVAxis": [
                   "0,-1,0",
                   "0,-1,0",
+                  "-0,0,-1",
                   "0,0,-1",
-                  "0,0,-1",
-                  "0,0,-1",
+                  "-0,0,-1",
                   "0,0,-1"
                 ],
                 "TextureScale": [
@@ -647,10 +698,10 @@
                 "TextureOffset": [
                   "0,0",
                   "0,0",
-                  "0,0",
-                  "0,0",
-                  "0,0",
-                  "0,0"
+                  "0,511.9998",
+                  "0,511.9998",
+                  "0,511.9998",
+                  "0,511.9998"
                 ],
                 "MaterialIndex": [
                   0,
