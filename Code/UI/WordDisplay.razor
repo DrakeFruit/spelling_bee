@@ -4,13 +4,12 @@
 @namespace Sandbox
 
 <root>
-	<div class="Word">@CurrentGuess</div>
+	<div>@CurrentGuess</div>
 </root>
 
 @code
 {
-
-	[Property, Sync] public static string CurrentGuess { get; set; }
+	[Property, Sync] public string CurrentGuess { get; set; }
 
 	protected override int BuildHash() => System.HashCode.Combine( CurrentGuess );
 }

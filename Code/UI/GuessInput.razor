@@ -18,31 +18,24 @@
 
 @code
 {
+	[RequireComponent] PlayerController Player { get; set; }
 	public TextEntry Entry { get; set; }
 	public bool MyTurn { get; set; } = true;
-
+	
 	protected override void OnFixedUpdate()
 	{
-		if ( Entry != null ) WordDisplay.CurrentGuess = Entry.Text;
+		
 	}
 
 	public async Task Submit()
 	{
-		if ( Entry.Text.ToLower() == GameManager.CurrentWord.ToLower() )
-		{
-			Entry.SetProperty( "style", "color: green" );
-			//Sound.Play();
-		}
-		else
-		{
-			Entry.SetProperty( "style", "color: red" );
-			//Sound.Play();
-		}
-		
+		//Sound.Play();
+		Entry.SetProperty( "style", Entry.Text.ToLower() == GameManager.CurrentWord?.ToLower() ? "color: green" : "color: red" );
+
+		//Sound.Play();
 		await Task.DelayRealtimeSeconds( 1 );
 		Entry.Text = "";
 		Entry.SetProperty( "style", "color: white" );
-		GameManager.NewWord();
 	}
 
 	protected override int BuildHash() => 0;

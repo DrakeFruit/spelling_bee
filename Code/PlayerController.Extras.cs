@@ -5,9 +5,10 @@ public sealed class PlayerControllerExtras : Component
 	[RequireComponent] PlayerController Player { get; set; }
 	[Property] int WalkSpeed { get; set; } = 250;
 	[Property] int JumpForce { get; set; } = 300;
+	public bool Alive = true;
 	protected override void OnStart()
 	{
-		Mouse.Visible = true;
+		Mouse.Visibility = MouseVisibility.Visible;
 		Player.EyeAngles = Rotation.LookAt( Scene.Camera.WorldPosition - WorldPosition ).Angles().WithPitch( 0 );
 	}
 	

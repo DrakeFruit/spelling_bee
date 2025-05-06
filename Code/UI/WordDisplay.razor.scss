@@ -6,13 +6,11 @@ WordDisplay
 	right: 0;
 	bottom: 0;
 	background-color: #444;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	
-	.Word
-	{
-		font-weight: bold;
-		font-size: 800%;
-		color: #fff;
-	}
+	font-weight: bold;
+	font-size: 250px;
+	color: #fff;
+	padding: 25px;
 }
