@@ -8,7 +8,7 @@ namespace Bee;
 
 public partial class GameManager
 {
-	[Sync] public static NetList<PlayerControllerExtras> Players { get; set; } = new();
+	public List<PlayerControllerExtras> Players { get; set; } = new();
 	
 	[Property] public bool StartServer { get; set; } = true;
 	[Property] public GameObject PlayerPrefab { get; set; }

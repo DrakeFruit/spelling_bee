@@ -11,13 +11,6 @@ GuessInput
 	font-family: Poppins;
 	color: #fff;
 	pointer-events: all;
-
-	.Hidden
-	{
-		color: orange;
-		opacity: 0;
-		pointer-events: none;
-	}
 	
 	.EntryWrapper
 	{
@@ -45,6 +38,8 @@ GuessInput
 	.Entry
 	{
 		font-size: 25px;
+		width: 100%;
+		height: 100%;
 	}
 	
 	.DefinitionWrapper

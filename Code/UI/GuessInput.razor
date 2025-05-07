@@ -5,14 +5,17 @@
 @inherits PanelComponent
 @namespace Bee
 
-<root class="@( MyTurn ? "" : "Hidden" )">
-	@if ( IsProxy ) return;
-	<div>@GameManager.CurrentWord</div> 
+<root>
+	@if ( IsProxy || !gameManager.IsValid() ) return;
+	<div>@gameManager.CurrentWord</div> 
 	<div class="DefinitionWrapper">
-		<div class="Definition">@GameManager.CurrentDefinition</div>
+		<div class="Definition">@gameManager.CurrentDefinition</div>
 	</div>
 	<div class="EntryWrapper">
-		<TextEntry class="Entry" Placeholder="Spell the word out here" onsubmit=@( () => Submit() ) @ref=Entry></TextEntry>
+		<TextEntry class="Entry" 
+		           Placeholder="Spell the word out here" 
+		           onsubmit=@( () => Submit() )
+		           @ref=Entry style=@( MyTurn ? "pointer-events: all" : "pointer-events: none" )></TextEntry>
 	</div>
 </root>
 
@@ -20,17 +23,19 @@
 {
 	[RequireComponent] PlayerController Player { get; set; }
 	public TextEntry Entry { get; set; }
-	public bool MyTurn { get; set; } = true;
+	public bool MyTurn { get; set; } = false;
 	
-	protected override void OnFixedUpdate()
+	GameManager gameManager { get; set; }
+	
+	protected override void OnStart()
 	{
-		
+		gameManager = Scene.Components.GetInDescendantsOrSelf<GameManager>();
 	}
 
 	public async Task Submit()
 	{
 		//Sound.Play();
-		Entry.SetProperty( "style", Entry.Text.ToLower() == GameManager.CurrentWord?.ToLower() ? "color: green" : "color: red" );
+		Entry.SetProperty( "style", Entry.Text.ToLower() == gameManager.CurrentWord?.ToLower() ? "color: green" : "color: red" );
 
 		//Sound.Play();
 		await Task.DelayRealtimeSeconds( 1 );
