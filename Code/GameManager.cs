@@ -11,12 +11,14 @@ public partial class GameManager : Component, Component.INetworkListener
 {
 	[Property] public WordListFile ListFile { get; set; }
 	[Property] public TextRenderer GuessDisplay { get; set; }
+	
 	[Sync] public string CurrentWord { get; set; }
 	[Sync] public string CurrentDefinition { get; set; }
-	
-	[Sync] public PlayerControllerExtras CurrentPlayer { get; set; }
 	[Sync] public string CurrentGuess { get; set; }
-	[Sync] public bool GameStarted { get; set; }
+	[Sync] public PlayerControllerExtras CurrentPlayer { get; set; }
+	[Sync] public GameState currentGameState { get; set; } = GameState.Waiting;
+	[Sync] public TimeSince TimeSinceRoundStarted { get; set; }
+	
 	GuessInput guessInput { get; set; }
 
 	protected override void OnStart()
@@ -27,41 +29,103 @@ public partial class GameManager : Component, Component.INetworkListener
 	
 	protected override void OnFixedUpdate()
 	{
-		if ( Players.Count >= 2 ) GameStarted = true;
-		if ( !GameStarted ) return;
-		
-		if ( Connection.Local == Connection.Host )
+		switch ( currentGameState )
 		{
-			if ( CurrentPlayer == null )
-			{
-				CurrentPlayer = Players[0];
-				CurrentPlayer.WorldPosition = Vector3.Zero;
-				CurrentPlayer.CanMove = false;
-				guessInput ??= CurrentPlayer.GameObject.Components.Get<GuessInput>();
-				NewWord();
-			}
-			else
-			{
-				guessInput.MyTurn = true;
-				CurrentGuess = guessInput.Entry.Text;
-			}
+			case GameState.Waiting:
+				Waiting();
+				break;
+			case GameState.Playing:
+				Playing();
+				break;
+			case GameState.SwitchingPlayers:
+				SwitchingPlayers();
+				break;
+		}
+	}
+
+	void Waiting()
+	{
+		if ( Players.Count >= 2 ) currentGameState = GameState.SwitchingPlayers;
+	}
+
+	void Playing()
+	{
+		if ( Connection.Local == Connection.Host && CurrentPlayer.IsValid() )
+		{
+			guessInput.MyTurn = true;
+			CurrentGuess = guessInput.Entry.Text;
 		}
 		
 		GuessDisplay.Text = CurrentGuess;
 	}
+
+	void SwitchingPlayers()
+	{
+		if ( Connection.Local != Connection.Host ) return;
+
+		if ( CurrentPlayer != null )
+		{
+			CurrentPlayer.CanMove = true;
+			CurrentPlayer.WorldPosition = Vector3.Zero;
+		}
+		if ( guessInput != null )
+		{
+			guessInput.MyTurn = false;
+		}
+
+		CurrentPlayer = CurrentPlayer == null ? Players.FirstOrDefault( x => x.Alive ) :
+			Players.FirstOrDefault( x => x.Alive && Players.IndexOf( x ) > Players.IndexOf( CurrentPlayer ) );
+		if ( CurrentPlayer == null ) CurrentPlayer =  Players.FirstOrDefault( x => x.Alive );
+		CurrentPlayer.WorldPosition = Vector3.Zero + Vector3.Right * 150;
+		CurrentPlayer.CanMove = false;
+		
+		guessInput ??= CurrentPlayer.GameObject.Components.Get<GuessInput>();
+		guessInput.MyTurn = true;
+		
+		NewWord();
+		currentGameState = GameState.Playing;
+	}
+
+	public async Task Submit()
+	{
+		if ( Connection.Local != Connection.Host ) return;
+		
+		var entry = guessInput.Entry;
+		//Sound.Play();
+		if ( entry.Text.ToLower() == CurrentWord?.ToLower() )
+		{
+			entry.SetProperty( "style", "color: green" );
+			GuessDisplay.Color = Color.Green;
+		}
+		else
+		{
+			entry.SetProperty( "style", "color: red" );
+			GuessDisplay.Color = Color.Red;
+		}
+
+		//Sound.Play();
+		await Task.DelayRealtimeSeconds( 1 );
+		entry.Text = "";
+		entry.SetProperty( "style", "color: white" );
+		GuessDisplay.Color = Color.White;
+		
+		currentGameState = GameState.SwitchingPlayers;
+	}
 	
 	public void NewWord()
 	{
-		if ( Connection.Local != CurrentPlayer.Network.Owner ) return;
+		if ( Connection.Local != Connection.Host ) return;
 		var element = ListFile.Words.ElementAt( Game.Random.Int( 0, ListFile.Words.Count - 1 ) );
 		CurrentWord = element.Key;
 		CurrentDefinition = element.Value;
 
 		//var audioPlayer = TikTokTTS.TikTokTTS.Say( "spell " + CurrentWord, "en_male_ukneighbor" );
 	}
-	
-	public enum CurrentGameState
+
+	public enum GameState
 	{
-		
+		Waiting,
+		Playing,
+		SwitchingPlayers
 	}
 }
