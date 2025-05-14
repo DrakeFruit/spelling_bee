@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Sandbox.Audio;
 using Sandbox.Network;
 using Sandbox.Rendering;
+using Sandbox.Services;
 using TikTokTTS;
 
 namespace Bee;
@@ -50,10 +51,9 @@ public partial class GameManager : Component, Component.INetworkListener
 
 	void Playing()
 	{
-		if ( Connection.Local == Connection.Host && CurrentPlayer.IsValid() )
+		if ( Connection.Local == Connection.Host && guessInput.IsValid() && guessInput.Network.Owner == CurrentPlayer.Network.Owner )
 		{
-			guessInput.MyTurn = true;
-			CurrentGuess = guessInput.Entry.Text;
+			CurrentGuess = guessInput.Guess;
 		}
 		
 		GuessDisplay.Text = CurrentGuess;
@@ -61,35 +61,39 @@ public partial class GameManager : Component, Component.INetworkListener
 
 	void SwitchingPlayers()
 	{
-		if ( Connection.Local != Connection.Host ) return;
-
-		if ( CurrentPlayer != null )
+		if ( Connection.Local == Connection.Host )
 		{
-			CurrentPlayer.CanMove = true;
-			CurrentPlayer.WorldPosition = Vector3.Zero;
-		}
-		if ( guessInput != null )
-		{
-			guessInput.MyTurn = false;
-		}
+			if ( guessInput != null )
+			{
+				guessInput.MyTurn = false;
+				CurrentPlayer.CanMove = true;
+				CurrentPlayer.WorldPosition = Vector3.Zero;
+			}
 
-		CurrentPlayer = CurrentPlayer == null ? Players.FirstOrDefault( x => x.Alive ) :
-			Players.FirstOrDefault( x => x.Alive && Players.IndexOf( x ) > Players.IndexOf( CurrentPlayer ) );
-		if ( CurrentPlayer == null ) CurrentPlayer =  Players.FirstOrDefault( x => x.Alive );
-		CurrentPlayer.WorldPosition = Vector3.Zero + Vector3.Right * 150;
-		CurrentPlayer.CanMove = false;
+			CurrentPlayer = CurrentPlayer == null ? Players.FirstOrDefault( x => x.Alive ) :
+				Players.FirstOrDefault( x => x.Alive && Players.IndexOf( x ) > Players.IndexOf( CurrentPlayer ) );
+			if ( CurrentPlayer == null ) CurrentPlayer =  Players.FirstOrDefault( x => x.Alive );
+			Log.Info("Switching to: " + CurrentPlayer.Network.Owner.DisplayName);
+			CurrentPlayer.WorldPosition = Vector3.Zero + Vector3.Right * 150;
+			CurrentPlayer.CanMove = false;
+		}
 		
-		guessInput ??= CurrentPlayer.GameObject.Components.Get<GuessInput>();
-		guessInput.MyTurn = true;
+		guessInput = CurrentPlayer.GameObject.Components.Get<GuessInput>();
+		guessInput.ToggleTurn();
 		
 		NewWord();
 		currentGameState = GameState.Playing;
 	}
 
+	
+	[Rpc.Host]
+	public void RPCSubmit()
+	{
+		_ = Submit();
+	}
+
 	public async Task Submit()
 	{
-		if ( Connection.Local != Connection.Host ) return;
-		
 		var entry = guessInput.Entry;
 		//Sound.Play();
 		if ( entry.Text.ToLower() == CurrentWord?.ToLower() )

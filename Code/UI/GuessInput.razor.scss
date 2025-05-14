@@ -10,7 +10,6 @@ GuessInput
 	font-weight: bold;
 	font-family: Poppins;
 	color: #fff;
-	pointer-events: all;
 	
 	.EntryWrapper
 	{
@@ -37,6 +36,7 @@ GuessInput
 	
 	.Entry
 	{
+		pointer-events: all;
 		font-size: 25px;
 		width: 100%;
 		height: 100%;

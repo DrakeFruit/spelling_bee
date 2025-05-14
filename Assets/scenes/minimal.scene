@@ -1341,7 +1341,8 @@
               "RenderType": "On",
               "Sequence": {
                 "Name": null,
-                "Looping": true
+                "Looping": true,
+                "Blending": false
               },
               "Tint": "1,1,1,1",
               "UseAnimGraph": true
