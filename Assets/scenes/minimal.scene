@@ -1105,7 +1105,7 @@
       "Scale": "1,1,1",
       "Tags": "",
       "Enabled": false,
-      "NetworkMode": 2,
+      "NetworkMode": 1,
       "NetworkInterpolation": true,
       "NetworkOrphaned": 0,
       "OwnerTransfer": 1,
@@ -1261,6 +1261,7 @@
         {
           "__type": "Bee.GuessInput",
           "__guid": "100cac4c-493c-40d7-b52f-699a071fb2ae",
+          "MyTurn": false,
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,

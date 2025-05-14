@@ -6,17 +6,20 @@
 @namespace Bee
 
 <root>
-	<div>@gameManager.CurrentWord</div>
-	<div class="DefinitionWrapper">
-		<div class="Definition">@gameManager.CurrentDefinition</div>
-	</div>
-	<div class="EntryWrapper">
-		<TextEntry class="Entry"
-		           Placeholder="Spell the word out here"
-		           onsubmit=@( () => gameManager.RPCSubmit() )
-		           @ref="Entry"
-		           style=@( MyTurn ? "pointer-events: all;" : "pointer-events: none;" )></TextEntry>
-	</div>
+	@if ( gameManager?.CurrentWord != null )
+	{
+		<div>@gameManager.CurrentWord</div>
+		<div class="DefinitionWrapper">
+			<div class="Definition">@gameManager.CurrentDefinition</div>
+		</div>
+	}
+	@if ( MyTurn )
+	{
+		<div class="EntryWrapper">
+		
+			<TextEntry class="Entry"Placeholder="Spell the word out here"onsubmit=@( () => gameManager.Submit() ) @ref="Entry"></TextEntry>
+		</div>
+	}
 </root>
 
 @code
@@ -37,18 +40,19 @@
 
 	protected override void OnFixedUpdate()
 	{
-		if ( IsProxy ) return;
-
 		Guess = Entry.Text;
+		
+		if ( IsProxy ) return;
 		
 		Hash = gameManager.currentGameState.GetHashCode();
 		if ( gameManager.CurrentWord != null ) Hash += gameManager.CurrentWord.GetHashCode();
+		Hash += MyTurn.GetHashCode();
 	}
 
 	[Rpc.Owner]
-	public void ToggleTurn()
+	public void SetMyTurn( bool myTurn)
 	{
-		MyTurn = !MyTurn;
+		MyTurn = myTurn;
 	}
 
 	protected override int BuildHash() => Hash;

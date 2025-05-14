@@ -57,6 +57,7 @@ public partial class GameManager : Component, Component.INetworkListener
 		}
 		
 		GuessDisplay.Text = CurrentGuess;
+		if ( !CurrentPlayer.IsValid() ) currentGameState = GameState.SwitchingPlayers;
 	}
 
 	void SwitchingPlayers()
@@ -65,55 +66,55 @@ public partial class GameManager : Component, Component.INetworkListener
 		{
 			if ( guessInput != null )
 			{
-				guessInput.MyTurn = false;
-				CurrentPlayer.CanMove = true;
-				CurrentPlayer.WorldPosition = Vector3.Zero;
+				guessInput.SetMyTurn(false);
+				CurrentPlayer.SetCanMove( true );
+				CurrentPlayer.MoveTo( Vector3.Zero, Rotation.Identity );
 			}
 
 			CurrentPlayer = CurrentPlayer == null ? Players.FirstOrDefault( x => x.Alive ) :
 				Players.FirstOrDefault( x => x.Alive && Players.IndexOf( x ) > Players.IndexOf( CurrentPlayer ) );
-			if ( CurrentPlayer == null ) CurrentPlayer =  Players.FirstOrDefault( x => x.Alive );
+			
+			if ( CurrentPlayer == null ) CurrentPlayer = Players.FirstOrDefault( x => x.Alive );
 			Log.Info("Switching to: " + CurrentPlayer.Network.Owner.DisplayName);
-			CurrentPlayer.WorldPosition = Vector3.Zero + Vector3.Right * 150;
-			CurrentPlayer.CanMove = false;
+			
+			CurrentPlayer.SetCanMove( false );
+			CurrentPlayer.MoveTo( Vector3.Zero + Vector3.Right * 150, Rotation.Identity );
 		}
 		
-		guessInput = CurrentPlayer.GameObject.Components.Get<GuessInput>();
-		guessInput.ToggleTurn();
+		guessInput = CurrentPlayer?.GameObject.Components.Get<GuessInput>();
+		guessInput?.SetMyTurn( true );
 		
 		NewWord();
 		currentGameState = GameState.Playing;
 	}
 
-	
-	[Rpc.Host]
-	public void RPCSubmit()
-	{
-		_ = Submit();
-	}
-
 	public async Task Submit()
 	{
-		var entry = guessInput.Entry;
 		//Sound.Play();
-		if ( entry.Text.ToLower() == CurrentWord?.ToLower() )
+		if ( guessInput?.Guess.ToLower() == CurrentWord?.ToLower() )
 		{
-			entry.SetProperty( "style", "color: green" );
+			if ( CurrentPlayer.Network.Owner == Connection.Local ) SetDisplayColor( "green" );
 			GuessDisplay.Color = Color.Green;
 		}
 		else
 		{
-			entry.SetProperty( "style", "color: red" );
+			if ( CurrentPlayer.Network.Owner == Connection.Local ) SetDisplayColor( "red" );
 			GuessDisplay.Color = Color.Red;
 		}
 
 		//Sound.Play();
 		await Task.DelayRealtimeSeconds( 1 );
-		entry.Text = "";
-		entry.SetProperty( "style", "color: white" );
-		GuessDisplay.Color = Color.White;
+		guessInput.Entry.Text = "";
+		SetDisplayColor( "white" );
 		
 		currentGameState = GameState.SwitchingPlayers;
+	}
+
+	[Rpc.Broadcast]
+	public void SetDisplayColor( string color )
+	{
+		guessInput?.Entry?.SetProperty( "style", "color: " + color );
+		GuessDisplay.Color = Color.White;
 	}
 	
 	public void NewWord()

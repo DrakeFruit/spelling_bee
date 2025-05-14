@@ -24,4 +24,19 @@ public sealed class PlayerControllerExtras : Component
 		}
 		if ( Input.Pressed( "Jump" ) && Player.IsOnGround ) Player.Jump( Vector3.Up * JumpForce );
 	}
+
+	[Rpc.Owner]
+	public void MoveTo( Vector3 position, Rotation rotation )
+	{
+		WorldPosition = position;
+		WorldRotation = rotation;
+	}
+
+	[Rpc.Owner]
+	public void SetCanMove( bool canMove )
+	{
+		CanMove = canMove;
+		var rb = Player.GetComponent<Rigidbody>();
+		if ( rb.IsValid() ) rb.Velocity = 0;
+	}
 }
